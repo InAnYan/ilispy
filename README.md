@@ -1,7 +1,7 @@
 # Ilispy
 Ilispy - Lisp dialect and interpreter.  
 It was written, while reading a book "Build Your Own Lisp" by Daniel Holden [https://www.buildyourownlisp.com/].  
-This Lisp dialect is similar to original and to the one in book.  
+This Lisp dialect is similar to the original and to the one in book.  
 Ilispy has quoted expressions and macros. It doesn't have Q-exprs.  
 Untested fully, quality is not guaranteed.  
 
@@ -10,15 +10,15 @@ Untested fully, quality is not guaranteed.
 While no `filename` is provided, the program will start in interpreter mode, where you can type expressions from command line.  
 If there is a `filename` the program will interpret this file.  
   
-To build this program, type `make` in the root directory of the project.  
+To build this program, create directories `bin` and `obj` and type `make` in the root directory of the project.  
 IMPORTANT: edit the Makefile and fill `DEFINES` according to your system (`LISPY_COMPILE_LINUX`, `LISPY_COMPILE_OSX` or `LISPY_COMPILE_OTHER`).  
 
 # Values
 There are n types of value:
 
 * __Number__ - signed integer. `13`, `42`, etc.
-* __Boolean__ - contains true or false. `true` or `false`
-* __Symbol__ - like a Lisp symbol. `node-type`, `absolute?`, it's like identifier in other languages, but it can contain a lot of different characters.
+* __Boolean__ - contains true or false. `true` or `false`.
+* __Symbol__ - like a Lisp symbol. `node-type`, `number?`, it's like identifier in other languages, but it can contain a lot of different characters.
 * __List__ - list of Ilispy values. `'(1 2 3)` or `(first second third)`.
 * __String__ - sequence of characters.
 * __Lambda__ - unnamed function.
@@ -43,7 +43,7 @@ Ilispy value type and its equivalent in C
 | Macro              | ``` struct {     lval* formals;     lval* body; } ```                 |
 
 # Evaluation
-Ilispy program - is a List. List, that under evaluation, is named `S-expr`. By default, the first member of S-expr is a function and the rest are arguments of function (like code mode in Lisp). For example:
+Ilispy program - is a List. A List, that under evaluation, is named `S-expr`. By default, the first member of S-expr is a function and the rest are arguments of function (like code mode in Lisp). For example:
 
     (+ 1 2 3)
 
@@ -53,7 +53,7 @@ Because List can store any Ilispy value, the Lists can be nested:
 	(+ 10 (- 5 9))
 
 It's similar to Lisp, Scheme, Common Lisp, etc.  
-Before function call all S-expr elements are evaluated. This is problematic in a lot of cases. For instance:  
+Before a function call all S-expr elements are evaluated. This is problematic in a lot of cases. For instance:  
 
 	(head (4 5 6))
 
@@ -61,7 +61,7 @@ I have List of 3 elements, I want to take the first element of the List. Because
 
 	(head '(4 5 6))
 
-Quoted type is simply a wrapper on Ilispy value. It's purpose is "to delay" evaluation. This means, that evaluation of a Quoted type return wrapped value, it doesn't try to evaluate wrapped value. Look at the example (`->` means evaluation pass):  
+Quoted type is simply a wrapper on Ilispy value. It's purpose is "to delay" evaluation (it's really a "delay", it isn't a switchig to data mode). This means, that evaluation of a Quoted type return wrapped value, it doesn't try to evaluate wrapped value. Look at the example (`->` means evaluation pass):  
 
 	(+ 1 2 3) -> 6
 	'(+ 1 2 3) -> (+ 1 2 3)
@@ -82,7 +82,7 @@ The rules of evalutaion of Ilispy value:
 2. If it is a List, then evaluate List as S-expr.  
 3. Otherwise, just return it.  
 
-The rulse of evaluation of S-expr:
+The rules of evaluation of S-expr:
 
 1. Evaluate first element of the List.  
 2. If the result is a macro, then expand macro and evaluate the expanded expression.
@@ -94,7 +94,7 @@ The rulse of evaluation of S-expr:
 
 # Macros
 I don't know how macros work in Lisp.  
-Macros in Ilispy is very simple: macros contains formal and actual arguments, like a lambda. It tries to find symbol in its body, which equals to formal, and replaces it with actual. Look at the example:  
+Macros in Ilispy iare very simple: macros contain formal and actual arguments, like a lambda. A macro tries to find symbol in its body, which equals to formal, and replaces it with actual. Look at the example:  
 
 	(defmacro head! (lst) (head 'lst))
 	(head! (1 2 3)) -> (head '(1 2 3))
@@ -110,4 +110,4 @@ Without macros, we have to do this:
 	(def 'inc (\ '(n) '(+ n 1)))
 	
 # End
-The rest of the language is similar to Lisp and Lispy. Look at the examples dir.
+The rest of the language is similar to Lisp and Lispy. Look at the files in examples directory.
