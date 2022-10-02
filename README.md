@@ -3,18 +3,19 @@ Ilispy - Lisp dialect and interpreter.
 It was written, while reading a book "Build Your Own Lisp" by Daniel Holden [https://www.buildyourownlisp.com/].  
 This Lisp dialect is similar to the original and to the one in book.  
 Ilispy has quoted expressions and macros. It doesn't have Q-exprs.  
-Untested fully, quality is not guaranteed.  
+The program is not tested fully, quality is not guaranteed.  
 
-# Usage and building
+# Usage
 	./ilispy [filename]
 While no `filename` is provided, the program will start in interpreter mode, where you can type expressions from command line.  
 If there is a `filename` the program will interpret this file.  
   
+# Build
 To build this program, create directories `bin` and `obj` and type `make` in the root directory of the project.  
 IMPORTANT: edit the Makefile and fill `DEFINES` according to your system (`LISPY_COMPILE_LINUX`, `LISPY_COMPILE_OSX` or `LISPY_COMPILE_OTHER`).  
 
 # Values
-There are n types of value:
+There are 9 types of value:
 
 * __Number__ - signed integer. `13`, `42`, etc.
 * __Boolean__ - contains true or false. `true` or `false`.
@@ -80,21 +81,24 @@ The rules of evalutaion of Ilispy value:
 
 1. If it is a Symbol, then retrieve value from current environment by symbol.  
 2. If it is a List, then evaluate List as S-expr.  
-3. Otherwise, just return it.  
+3. If it is a Quoted type, then return wrapped object.  
+3. Otherwise, just return the value.  
 
 The rules of evaluation of S-expr:
 
 1. Evaluate first element of the List.  
 2. If the result is a macro, then expand macro and evaluate the expanded expression.
-3. Otherwise, evaluate the rest of the List and use it as arguments.  
-2. Take the first element:
-	* If it's a Builtin, then call it with arguments.  
-	* If it's a Lambda, then call it with arguments.  
+3. Otherwise, evaluate the rest of the List
+4. If there is an error in any evaluation, then return only this value.  
+5. If there is only one element in S-expr, then return it. (Because of this, there is no functions without arguments).  
+6. Take the first element:
+	* If it's a Builtin, then call it with the rest of list as arguments.  
+	* If it's a Lambda, then call it with the rest of list as arguments.  
 	* Otherwise, return an error.  
 
 # Macros
 I don't know how macros work in Lisp.  
-Macros in Ilispy iare very simple: macros contain formal and actual arguments, like a lambda. A macro tries to find symbol in its body, which equals to formal, and replaces it with actual. Look at the example:  
+Macros in Ilispy are very simple: macros contain formal and actual arguments, like a lambda. A macro tries to find symbol in its body, which equals to formal, and replaces it with actual. Look at the example:  
 
 	(defmacro head! (lst) (head 'lst))
 	(head! (1 2 3)) -> (head '(1 2 3))
