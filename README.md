@@ -115,3 +115,7 @@ Without macros, we have to do this:
 	
 # End
 The rest of the language is similar to Lisp and Lispy. Look at the files in examples directory.
+
+# TODO
+1. Separate value and object types. Represent lists, lambdas and macros as pointers in `lvalue` struct.
+2. Static type check. Probably, it needs an intermediate representation between `mpc_node_t` and `lvalue`.
