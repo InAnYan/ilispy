@@ -122,3 +122,5 @@ The rest of the language is similar to Lisp and Lispy. Look at the files in exam
 3. Instead of using macros and quotes create some special forms of syntax. `lambda`, `quote`, `define`, etc. should be evaluated in special way.
 4. Delete `Quoted type` and use special form - `quote`.
 5. Represent `List` as `cons` cells.
+6. Syntax check.
+7. Closures.
