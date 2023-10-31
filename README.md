@@ -39,7 +39,7 @@ Ilispy value type and its equivalent in C
 | Number             | `long`                                                                |
 | Boolean            | `bool`                                                                |
 | Symbol             | `char*`                                                               |
-| List               | ``` struct { unsigned count;     struct lval** cells; } ```           |
+| List               | ``` struct { unsigned count; struct lval** cells; } ```               |
 | String             | `char*`                                                               |
 | Lambda             | ``` struct { lenv* env; lval* formals; lval* body; }  ```             |
 | Builtin            | `lval* (*lbuiltin_func)(lenv* e, lval* a)`                            |
