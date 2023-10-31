@@ -1,5 +1,6 @@
 # Ilispy
 THERE IS A NEW PROJECT: [LispCpp](https://github.com/InAnYan/LispCpp).
+
 Ilispy - Lisp dialect and interpreter.  
 It was written, while reading a book "Build Your Own Lisp" by Daniel Holden [https://www.buildyourownlisp.com/].  
 This Lisp dialect is similar to the original and to the one in book.  
@@ -38,11 +39,11 @@ Ilispy value type and its equivalent in C
 | Number             | `long`                                                                |
 | Boolean            | `bool`                                                                |
 | Symbol             | `char*`                                                               |
-| List               | ``` struct {     unsigned count;     struct lval** cells; } ```       |
+| List               | ``` struct { unsigned count;     struct lval** cells; } ```           |
 | String             | `char*`                                                               |
-| Lambda             | ``` struct {     lenv* env;     lval* formals;     lval* body; }  ``` |
+| Lambda             | ``` struct { lenv* env; lval* formals; lval* body; }  ```             |
 | Builtin            | `lval* (*lbuiltin_func)(lenv* e, lval* a)`                            |
-| Macro              | ``` struct {     lval* formals;     lval* body; } ```                 |
+| Macro              | ``` struct { lval* formals; lval* body; } ```                         |
 
 # Evaluation
 Ilispy program - is a List. A List, that under evaluation, is named `S-expr`. By default, the first member of S-expr is a function and the rest are arguments of function (like code mode in Lisp). For example:
